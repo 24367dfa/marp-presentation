@@ -26,8 +26,7 @@ jobs:
 
       - name: Build HTML presentation
         run: npx @marp-team/marp-cli presentation.md --html --output presentation.html
-      
-      jobs:
+
   # Deploy job
   deploy:
     # Add a dependency to the build job
