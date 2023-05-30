@@ -20,19 +20,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
+      - name: Copy images
+        run: mkdir build && cp -R img build/img
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build HTML presentation
-        run: npx @marp-team/marp-cli presentation.md --html --output presentation.html
-      
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Marp Build (README)
+        uses: docker://marpteam/marp-cli:v1.7.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+          args: presentation.md -o build/index.html
+        env:
+          MARP_USER: root:root
+
+      - name: Deploy production
+        if: ${{ github.event_name == 'push' }}
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: ./build/
+          clean-exclude: pr-preview/
