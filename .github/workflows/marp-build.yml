@@ -41,6 +41,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+      artifact_name: presentation.html
 
     # Specify runner + deployment step
     runs-on: ubuntu-latest
