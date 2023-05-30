@@ -2,11 +2,13 @@ name: Marp Build
 
 on:
   push:
-    branches:
-      - main  # Modify this to your main branch name
+    branches: [ main ]
   pull_request:
-    branches:
-      - main  # Modify this to your main branch name
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
 
 jobs:
   build:
